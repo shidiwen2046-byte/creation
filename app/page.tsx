@@ -181,6 +181,25 @@ export default function Home() {
                   <img src={item.src} alt="" />
                 </span>
               )}
+              {item.id === "scarves" && (
+                <span className="spark-shower" aria-hidden="true">
+                  {Array.from({ length: 12 }, (_, index) => (
+                    <i key={index} />
+                  ))}
+                </span>
+              )}
+              {item.id === "florence" && (
+                <span className="stop-pop" aria-hidden="true">
+                  STOP
+                </span>
+              )}
+              {item.id === "saint" && (
+                <span className="sleep-zzz" aria-hidden="true">
+                  <i>Z</i>
+                  <i>Z</i>
+                  <i>Z</i>
+                </span>
+              )}
               <em>{item.note}</em>
             </button>
           ))}

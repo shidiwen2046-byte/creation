@@ -137,13 +137,17 @@ a {
 
 .found-object em {
   position: absolute;
+  z-index: 12;
   left: 4px;
   bottom: -22px;
+  width: max-content;
+  max-width: min(190px, 70vw);
   font-size: 9px;
+  line-height: 1.2;
   font-style: normal;
   font-weight: 900;
   letter-spacing: 0.08em;
-  white-space: nowrap;
+  white-space: normal;
   background: var(--paper);
   padding: 3px 5px;
   border: 1px solid var(--ink);
@@ -183,7 +187,7 @@ a {
 
 .object-pigeon {
   right: 16%;
-  bottom: 1%;
+  bottom: 7%;
   width: clamp(120px, 14vw, 215px);
   aspect-ratio: 0.7;
   transform: rotate(6deg);
@@ -191,7 +195,7 @@ a {
 
 .object-dog {
   left: 20%;
-  bottom: 2%;
+  bottom: 7%;
   width: clamp(170px, 21vw, 325px);
   aspect-ratio: 1.34;
   transform: rotate(-4deg);
@@ -207,7 +211,7 @@ a {
 
 .object-scarves {
   right: 1%;
-  bottom: 2%;
+  bottom: 7%;
   width: clamp(90px, 10vw, 155px);
   aspect-ratio: 0.57;
   transform: rotate(4deg);
@@ -215,7 +219,7 @@ a {
 
 .object-saint {
   left: 5%;
-  bottom: 1%;
+  bottom: 7%;
   width: clamp(145px, 17vw, 265px);
   aspect-ratio: 1.39;
   transform: rotate(5deg);
@@ -232,10 +236,26 @@ a {
 
 .object-sheep {
   left: 42%;
-  bottom: 1%;
+  bottom: 7%;
   width: clamp(150px, 18vw, 278px);
   aspect-ratio: 2.23;
   transform: rotate(2deg);
+}
+
+.object-pigeon em,
+.object-dog em,
+.object-scarves em,
+.object-saint em,
+.object-sheep em {
+  top: -27px;
+  bottom: auto;
+}
+
+.object-pigeon em,
+.object-scarves em {
+  right: 0;
+  left: auto;
+  text-align: right;
 }
 
 .found-object.object-cow:hover,
@@ -329,6 +349,123 @@ a {
 .object-dog:focus-visible > img {
   transform: translateY(7px) rotate(-2deg);
 }
+
+.found-object.object-scarves:hover,
+.found-object.object-scarves:focus-visible {
+  animation: scarf-shiver 0.48s steps(2, end) infinite;
+}
+
+.spark-shower {
+  position: absolute;
+  top: 28%;
+  left: 4%;
+  z-index: 5;
+  width: 92%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.spark-shower i {
+  --spark-x: 0px;
+  --spark-drift: 0px;
+  --spark-delay: 0s;
+  --spark-color: #fff333;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 6px;
+  aspect-ratio: 1;
+  opacity: 0;
+  color: var(--spark-color);
+  background: currentColor;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  box-shadow: 0 0 9px 3px currentColor;
+  transform: translateX(var(--spark-x));
+}
+
+.spark-shower i:nth-child(1) { --spark-x: -54px; --spark-drift: -18px; --spark-color: #fff333; }
+.spark-shower i:nth-child(2) { --spark-x: -38px; --spark-drift: 12px; --spark-delay: .08s; --spark-color: #ff48bd; }
+.spark-shower i:nth-child(3) { --spark-x: -24px; --spark-drift: -8px; --spark-delay: .18s; --spark-color: #53efff; }
+.spark-shower i:nth-child(4) { --spark-x: -8px; --spark-drift: 22px; --spark-delay: .28s; --spark-color: #ff7538; }
+.spark-shower i:nth-child(5) { --spark-x: 8px; --spark-drift: -16px; --spark-delay: .12s; --spark-color: #a5ff64; }
+.spark-shower i:nth-child(6) { --spark-x: 24px; --spark-drift: 9px; --spark-delay: .38s; --spark-color: #905cff; }
+.spark-shower i:nth-child(7) { --spark-x: 40px; --spark-drift: -20px; --spark-delay: .48s; --spark-color: #fff333; }
+.spark-shower i:nth-child(8) { --spark-x: 55px; --spark-drift: 18px; --spark-delay: .22s; --spark-color: #ff48bd; }
+.spark-shower i:nth-child(9) { --spark-x: -46px; --spark-drift: 26px; --spark-delay: .56s; --spark-color: #53efff; }
+.spark-shower i:nth-child(10) { --spark-x: -16px; --spark-drift: -24px; --spark-delay: .68s; --spark-color: #ff7538; }
+.spark-shower i:nth-child(11) { --spark-x: 18px; --spark-drift: 25px; --spark-delay: .58s; --spark-color: #a5ff64; }
+.spark-shower i:nth-child(12) { --spark-x: 48px; --spark-drift: -12px; --spark-delay: .74s; --spark-color: #905cff; }
+
+.object-scarves:hover .spark-shower i,
+.object-scarves:focus-visible .spark-shower i {
+  animation: spark-drop 1.15s ease-in infinite;
+  animation-delay: var(--spark-delay);
+}
+
+.stop-pop {
+  position: absolute;
+  top: 28%;
+  left: -34%;
+  z-index: 6;
+  color: #ff493d;
+  font-size: clamp(26px, 3.2vw, 48px);
+  font-weight: 950;
+  letter-spacing: -0.08em;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  text-shadow:
+    2px 2px 0 #fff,
+    4px 4px 0 #111,
+    7px 7px 0 #175cff,
+    10px 10px 0 #111;
+  transform: perspective(280px) rotateY(70deg) translateX(24px) scale(0.35);
+  transform-origin: right center;
+  transition: opacity 180ms ease, transform 520ms cubic-bezier(0.16, 1.3, 0.35, 1);
+}
+
+.object-florence:hover .stop-pop,
+.object-florence:focus-visible .stop-pop {
+  opacity: 1;
+  transform: perspective(280px) rotateY(-12deg) translateX(0) scale(1);
+}
+
+.sleep-zzz {
+  position: absolute;
+  top: -10%;
+  right: -12%;
+  z-index: 6;
+  width: 52%;
+  height: 65%;
+  color: #d7ff38;
+  pointer-events: none;
+}
+
+.sleep-zzz i {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  font-style: normal;
+  font-weight: 950;
+  -webkit-text-stroke: 1px var(--ink);
+  text-shadow: 3px 3px 0 var(--blue);
+}
+
+.sleep-zzz i:nth-child(1) { right: 0; bottom: 0; font-size: 20px; }
+.sleep-zzz i:nth-child(2) { right: 22%; bottom: 26%; font-size: 28px; }
+.sleep-zzz i:nth-child(3) { right: 47%; bottom: 58%; font-size: 38px; }
+
+.object-saint:hover .sleep-zzz i,
+.object-saint:focus-visible .sleep-zzz i {
+  animation: zzz-float 1.5s ease-out infinite;
+}
+
+.object-saint:hover .sleep-zzz i:nth-child(2),
+.object-saint:focus-visible .sleep-zzz i:nth-child(2) { animation-delay: .24s; }
+.object-saint:hover .sleep-zzz i:nth-child(3),
+.object-saint:focus-visible .sleep-zzz i:nth-child(3) { animation-delay: .48s; }
 
 .about {
   display: grid;
@@ -725,6 +862,25 @@ footer a {
   15% { opacity: 1; }
   85% { opacity: 1; }
   100% { opacity: 0; transform: translate(8px, 95px) rotate(75deg); }
+}
+
+@keyframes scarf-shiver {
+  0%, 100% { transform: rotate(4deg) translateX(0); }
+  25% { transform: rotate(1deg) translateX(-4px); }
+  50% { transform: rotate(7deg) translateX(4px); }
+  75% { transform: rotate(2deg) translateX(-2px); }
+}
+
+@keyframes spark-drop {
+  0% { opacity: 0; transform: translate(var(--spark-x), -10px) scale(.2); }
+  12% { opacity: 1; transform: translate(var(--spark-x), 0) scale(1.35); }
+  100% { opacity: 0; transform: translate(calc(var(--spark-x) + var(--spark-drift)), 110px) scale(.45); }
+}
+
+@keyframes zzz-float {
+  0% { opacity: 0; transform: translate(0, 8px) scale(.45) rotate(-10deg); }
+  20%, 72% { opacity: 1; }
+  100% { opacity: 0; transform: translate(16px, -26px) scale(1.15) rotate(8deg); }
 }
 
 @media (max-width: 800px) {
