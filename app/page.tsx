@@ -6,50 +6,84 @@ type ObjectCard = {
   id: string;
   label: string;
   note: string;
-  src?: string;
+  description: string[];
+  src: string;
   className: string;
 };
 
 const objects: ObjectCard[] = [
   {
-    id: "can",
-    label: "一罐没喝完的夏天",
-    note: "ALU / 16:42 / 路边捡到",
-    className: "object-can",
-  },
-  {
-    id: "gum",
-    label: "薄荷味的五分钟",
-    note: "MINT / POCKET ARCHIVE",
-    className: "object-gum",
-  },
-  {
-    id: "london",
-    label: "伦敦，换乘中",
-    note: "TUBE / LONDON / 2024",
-    src: "https://commons.wikimedia.org/wiki/Special:Redirect/file/London%20Underground%20Roundel,%20London%20SW1%20-%20geograph.org.uk%20-%204291435.jpg?width=900",
-    className: "object-london",
-  },
-  {
-    id: "stop",
-    label: "在佛罗伦萨停一下",
-    note: "STOP / FIRENZE / 12:08",
-    src: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Stop%20sign%20(1).jpg?width=900",
-    className: "object-stop",
-  },
-  {
     id: "berlin",
-    label: "柏林地下的蓝",
-    note: "POTSDAMER PLATZ / U2",
-    src: "https://commons.wikimedia.org/wiki/Special:Redirect/file/U-Bahn%20Berlin%20Potsdamer%20Platz%20Sign.jpg?width=900",
+    label: "人类的地下生活",
+    note: "BERLIN / ALEXANDERPLATZ / UNDERGROUND ARCHIVE",
+    description: [
+      "人类为了提高效率发明了地铁。然后所有人低头看手机，成功回到了一个更孤独的时代。",
+      "地铁是城市里最大的公共空间，也是人类假装互不认识的地方。",
+    ],
+    src: "/hero/berlin.webp",
     className: "object-berlin",
   },
   {
-    id: "park",
-    label: "公园坐到天黑",
-    note: "BENCH / SUNDAY / NO PLAN",
-    src: "https://commons.wikimedia.org/wiki/Special:Redirect/file/ParkBench.jpg?width=900",
-    className: "object-park",
+    id: "london",
+    label: "通往另一个伦敦",
+    note: "LONDON / PUBLIC SUBWAY / TIME CAPSULE",
+    description: ["伦敦把时间藏在地下。上面是不断更新的城市，下面是仍在呼吸的百年轨道。"],
+    src: "/hero/london.webp",
+    className: "object-london",
+  },
+  {
+    id: "florence",
+    label: "禁止停车，禁止不了意大利",
+    note: "FIRENZE / STREET SIGN / BEAUTIFUL DISORDER",
+    description: ["有些国家靠规则维持秩序，意大利靠审美缓解混乱。"],
+    src: "/hero/florence.webp",
+    className: "object-florence",
+  },
+  {
+    id: "pigeon",
+    label: "威尼斯的真正居民",
+    note: "VENEZIA / LOCAL RESIDENT / FREE VIEW",
+    description: [
+      "人们花几千块机票来到这里寻找浪漫，鸽子每天免费获得同样的风景。游客拍照，鸽子营业。",
+      "这座城市的商业模式运行了几百年。",
+    ],
+    src: "/hero/pigeon.webp",
+    className: "object-pigeon",
+  },
+  {
+    id: "dog",
+    label: "狗比人更懂生活",
+    note: "DOG / SUNSHINE / HAPPINESS STUDY",
+    description: [
+      "人类发明了工作、焦虑和人生规划。狗只需要一块太阳、一顿饭，以及一个愿意摸它的人。",
+      "人类研究幸福，狗直接拥有幸福。",
+    ],
+    src: "/hero/dog.webp",
+    className: "object-dog",
+  },
+  {
+    id: "cow",
+    label: "牛的凝视",
+    note: "COW / MUTUAL OBSERVATION / FIELD NOTE",
+    description: ["我本来只是来看牛的。后来发现牛也想看看我。"],
+    src: "/hero/cow.webp",
+    className: "object-cow",
+  },
+  {
+    id: "scarves",
+    label: "人类为什么要挂东西",
+    note: "SCARVES / DISPLAY HABIT / DAILY STORAGE",
+    description: ["人类拥有无数储存空间，却还是喜欢把一些东西挂出来。"],
+    src: "/hero/scarves.webp",
+    className: "object-scarves",
+  },
+  {
+    id: "saint",
+    label: "他在想什么",
+    note: "SAINT / TIME UNKNOWN / SAME QUESTION",
+    description: ["好像无论过去多久，人类都在面对同样的问题。"],
+    src: "/hero/saint.webp",
+    className: "object-saint",
   },
 ];
 
@@ -103,8 +137,7 @@ export default function Home() {
         </header>
 
         <div id="top" className="hero-title">
-          <span>猪没什么</span>
-          <span className="title-shift">想不通的</span>
+          <img src="/hero/cover-title.webp" alt="猪没什么想不通的" />
         </div>
 
         <p className="hero-index">OBJECTS FROM REAL LIFE / CLICK TO DISTORT / 2026</p>
@@ -117,13 +150,7 @@ export default function Home() {
               onClick={() => setActiveObject(item)}
               aria-label={`放大查看：${item.label}`}
             >
-              {item.src ? (
-                <img src={item.src} alt="" />
-              ) : (
-                <span className="css-object" aria-hidden="true">
-                  {item.id === "can" ? "SPARK" : "MINT / CHEW / REPEAT"}
-                </span>
-              )}
+              <img src={item.src} alt="" />
               <em>{item.note}</em>
             </button>
           ))}
@@ -214,16 +241,14 @@ export default function Home() {
             ×
           </button>
           <div className={`modal-object ${activeObject.className}`}>
-            {activeObject.src ? (
-              <img src={activeObject.src} alt={activeObject.label} />
-            ) : (
-              <span className="css-object">{activeObject.id === "can" ? "SPARK" : "MINT / CHEW / REPEAT"}</span>
-            )}
+            <img src={activeObject.src} alt={activeObject.label} />
           </div>
           <div className="modal-caption">
             <span>{activeObject.note}</span>
             <h2>{activeObject.label}</h2>
-            <p>一件没有必要被记住，但还是被我收进视觉档案里的东西。</p>
+            {activeObject.description.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
         </div>
       )}
