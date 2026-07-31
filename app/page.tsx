@@ -85,6 +85,22 @@ const objects: ObjectCard[] = [
     src: "/hero/saint.webp",
     className: "object-saint",
   },
+  {
+    id: "pisa",
+    label: "不要修了，开始收费吧",
+    note: "PISA / UNSOLVED PROBLEM / TICKET OFFICE",
+    description: ["当你发现一个问题无法解决时，最好的办法可能是：给它取一个名字，建一个售票处。"],
+    src: "/hero/pisa.webp",
+    className: "object-pisa",
+  },
+  {
+    id: "sheep",
+    label: "黑脸的哲学",
+    note: "BLACK FACE / GRASS DECISION / FIELD PHILOSOPHY",
+    description: ["我们总觉得特别意味着孤独。但对它来说，可能只是今天吃哪块草的问题。"],
+    src: "/hero/sheep.webp",
+    className: "object-sheep",
+  },
 ];
 
 const categories = [
@@ -151,6 +167,20 @@ export default function Home() {
               aria-label={`放大查看：${item.label}`}
             >
               <img src={item.src} alt="" />
+              {item.id === "pigeon" && (
+                <span className="falling-fries" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                </span>
+              )}
+              {item.id === "dog" && (
+                <span className="dog-head-pop" aria-hidden="true">
+                  <img src={item.src} alt="" />
+                </span>
+              )}
               <em>{item.note}</em>
             </button>
           ))}
@@ -236,7 +266,12 @@ export default function Home() {
       </footer>
 
       {activeObject && (
-        <div className="object-modal" role="dialog" aria-modal="true" aria-label={activeObject.label}>
+        <div
+          className={`object-modal object-modal-${activeObject.id}`}
+          role="dialog"
+          aria-modal="true"
+          aria-label={activeObject.label}
+        >
           <button className="modal-close" onClick={() => setActiveObject(null)} aria-label="关闭">
             ×
           </button>
