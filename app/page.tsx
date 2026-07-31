@@ -133,6 +133,7 @@ const categories = [
 export default function Home() {
   const [activeObject, setActiveObject] = useState<ObjectCard | null>(null);
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number] | null>(null);
+  const [titleDropped, setTitleDropped] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = activeObject ? "hidden" : "";
@@ -152,8 +153,18 @@ export default function Home() {
           <a href="#works">作品索引 ↘</a>
         </header>
 
-        <div id="top" className="hero-title">
-          <img src="/hero/cover-title.webp" alt="猪没什么想不通的" />
+        <div id="top" className={`hero-title ${titleDropped ? "is-dropped" : ""}`}>
+          <div className="hero-title-board">
+            <img src="/hero/cover-title.webp" alt="猪没什么想不通的" />
+          </div>
+          <button
+            className="title-press"
+            type="button"
+            onClick={() => setTitleDropped((dropped) => !dropped)}
+            aria-label={titleDropped ? "重新升起封面标题" : "让封面标题掉落"}
+          >
+            PRESS
+          </button>
         </div>
 
         <p className="hero-index">OBJECTS FROM REAL LIFE / CLICK TO DISTORT / 2026</p>
@@ -179,6 +190,13 @@ export default function Home() {
               {item.id === "dog" && (
                 <span className="dog-head-pop" aria-hidden="true">
                   <img src={item.src} alt="" />
+                </span>
+              )}
+              {item.id === "berlin" && (
+                <span className="station-bricks" aria-hidden="true">
+                  {Array.from({ length: 10 }, (_, index) => (
+                    <i key={index} />
+                  ))}
                 </span>
               )}
               {item.id === "scarves" && (
