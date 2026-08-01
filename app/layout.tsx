@@ -11,13 +11,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(origin),
-    title: "猪没什么想不通的｜视觉设计作品集",
-    description: "一个收集街头标识、日常物件、海报、表情和文字实验的个人设计作品集。",
+    title: "猪想通了",
+    description: "猪想通了：一个收集街头标识、日常物件、海报、表情和文字实验的个人设计作品集。",
     icons: {
       icon: "/favicon.svg",
     },
     openGraph: {
-      title: "猪没什么想不通的",
+      title: "猪想通了",
       description: "日常物件、街头标识与视觉实验。",
       images: [{ url: `${origin}/og.png`, width: 1672, height: 941 }],
       locale: "zh_CN",
@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "猪没什么想不通的",
+      title: "猪想通了",
       description: "日常物件、街头标识与视觉实验。",
       images: [`${origin}/og.png`],
     },
