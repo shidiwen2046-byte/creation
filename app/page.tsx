@@ -157,6 +157,11 @@ export default function Home() {
           <div className="hero-title-board">
             <img src="/hero/cover-title.webp" alt="猪没什么想不通的" />
           </div>
+          <span className="pig-rain" aria-hidden="true">
+            {Array.from({ length: 5 }, (_, index) => (
+              <i className={`falling-pig pig-${index + 1}`} key={index} />
+            ))}
+          </span>
           <button
             className="title-press"
             type="button"

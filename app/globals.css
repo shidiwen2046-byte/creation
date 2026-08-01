@@ -91,6 +91,7 @@ a {
 
 .hero-title-board {
   position: relative;
+  z-index: 2;
   transform-origin: 50% 0;
   will-change: transform, opacity;
 }
@@ -103,7 +104,84 @@ a {
 }
 
 .hero-title.is-dropped .hero-title-board {
-  animation: billboard-drop 1.25s cubic-bezier(0.55, 0.02, 0.95, 0.55) both;
+  animation: billboard-drop 2.05s cubic-bezier(0.46, 0.03, 0.86, 0.52) both;
+}
+
+.pig-rain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.falling-pig {
+  --pig-x: 0%;
+  --pig-delay: 0s;
+  --pig-spin: 20deg;
+  --pig-scale: 1;
+  position: absolute;
+  top: -45vh;
+  left: var(--pig-x);
+  display: block;
+  width: clamp(34px, 4vw, 62px);
+  aspect-ratio: 1.08;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 35% 42%, #111 0 3%, transparent 3.7%),
+    radial-gradient(circle at 65% 42%, #111 0 3%, transparent 3.7%),
+    #ff91bd;
+  border: 2px solid var(--ink);
+  border-radius: 48% 52% 45% 48%;
+  box-shadow: 4px 5px 0 rgba(16, 16, 16, 0.26);
+  transform: translate(-50%, 0) rotate(-12deg) scale(var(--pig-scale));
+}
+
+.falling-pig::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -22%;
+  left: 5%;
+  width: 29%;
+  height: 43%;
+  background: #ff91bd;
+  border: 2px solid var(--ink);
+  border-radius: 80% 10% 55% 45%;
+  box-shadow: 38px 1px 0 -1px #ff91bd, 40px 1px 0 0 var(--ink);
+  transform: rotate(-18deg);
+}
+
+.falling-pig::after {
+  content: "••";
+  position: absolute;
+  left: 50%;
+  bottom: 13%;
+  display: grid;
+  place-items: center;
+  width: 43%;
+  height: 28%;
+  color: #7d3150;
+  background: #ffbad5;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  font-size: clamp(8px, 0.85vw, 13px);
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  transform: translateX(-50%);
+}
+
+.pig-1 { --pig-x: 12%; --pig-delay: .18s; --pig-spin: -26deg; --pig-scale: .82; }
+.pig-2 { --pig-x: 31%; --pig-delay: .42s; --pig-spin: 38deg; --pig-scale: 1.08; }
+.pig-3 { --pig-x: 52%; --pig-delay: .08s; --pig-spin: -44deg; --pig-scale: .72; }
+.pig-4 { --pig-x: 72%; --pig-delay: .56s; --pig-spin: 28deg; --pig-scale: 1; }
+.pig-5 { --pig-x: 91%; --pig-delay: .3s; --pig-spin: -34deg; --pig-scale: .88; }
+
+.hero-title.is-dropped .falling-pig {
+  animation: pig-drop 1.72s cubic-bezier(0.4, 0.03, 0.84, 0.56) both;
+  animation-delay: var(--pig-delay);
 }
 
 .title-press {
@@ -929,11 +1007,21 @@ footer a {
 }
 
 @keyframes billboard-drop {
-  0% { transform: translateY(0) rotate(0); opacity: 1; }
-  12% { transform: translateY(1.5vh) rotate(2deg); }
-  28% { transform: translateY(-1vh) rotate(-4deg); }
-  42% { transform: translateY(6vh) rotate(7deg); opacity: 1; }
-  100% { transform: translateY(125vh) rotate(24deg); opacity: 0; }
+  0% { transform: translateY(0) scale(1) rotate(0); opacity: 1; }
+  18% { transform: translateY(0) scale(.28) rotate(-2deg); opacity: 1; }
+  34% { transform: translateY(0) scale(.28) rotate(1deg); opacity: 1; }
+  44% { transform: translateY(2vh) scale(.28) rotate(-3deg); opacity: 1; }
+  68% { transform: translateY(42vh) scale(.28) rotate(10deg); opacity: 1; }
+  100% { transform: translateY(125vh) scale(.28) rotate(24deg); opacity: 0; }
+}
+
+@keyframes pig-drop {
+  0% { opacity: 0; transform: translate(-50%, 0) rotate(-12deg) scale(var(--pig-scale)); }
+  10% { opacity: 1; }
+  48% { transform: translate(-50%, 48vh) rotate(calc(var(--pig-spin) * .35)) scale(var(--pig-scale)); }
+  58% { transform: translate(calc(-50% + 12px), 56vh) rotate(calc(var(--pig-spin) * -.22)) scale(var(--pig-scale)); }
+  82% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% - 15px), 145vh) rotate(var(--pig-spin)) scale(var(--pig-scale)); }
 }
 
 @keyframes brick-fall {
