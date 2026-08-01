@@ -130,6 +130,12 @@ const categories = [
   },
 ];
 
+const willowCopy = [
+  ["我收集街头碎片、城市噪音、", "电影里的沉默，还有那些", "不知道为什么存在但就是", "很有意思的东西。"],
+  ["我不生产答案，只负责提出", "一些让自己困惑的问题。"],
+  ["目前生活在陆地上，", "尚未掌握飞行技能。"],
+];
+
 export default function Home() {
   const [activeObject, setActiveObject] = useState<ObjectCard | null>(null);
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number] | null>(null);
@@ -147,9 +153,8 @@ export default function Home() {
       <section className="hero" aria-label="个人作品集首页">
         <header className="topbar">
           <a className="brand" href="#top" aria-label="返回首页">
-            ZHU—01
+            史蒂文01
           </a>
-          <p>视觉设计 / 图像 / 字体 / 一些想不通的事</p>
           <a href="#works">作品索引 ↘</a>
         </header>
 
@@ -234,18 +239,54 @@ export default function Home() {
       <section className="about" aria-labelledby="about-title">
         <div>
           <p className="eyebrow">ABOUT / 关于我</p>
-          <h2 id="about-title">
-            我是一名把日常生活
-            <br />
-            <span>拧一下</span>的视觉设计师。
-          </h2>
+          <div
+            className="about-title-art"
+            id="about-title"
+            role="img"
+            aria-label="我是一个把普通生活拧出凤梨味道的人"
+          >
+            <img src="/hero/about-title.png" alt="" />
+          </div>
         </div>
-        <div className="about-copy">
-          <p>
-            我收集街头标识、被揉皱的包装、没说完的话，以及城市里看似无关紧要的颜色。
-            然后把它们做成海报、表情、字体和有点奇怪的视觉系统。
-          </p>
-          <p className="small-copy">目前生活在中国，也在寻找有趣的合作与没有标准答案的问题。</p>
+        <div
+          className="about-copy willow-copy"
+          tabIndex={0}
+          aria-label="我收集街头碎片、城市噪音、电影里的沉默，还有那些不知道为什么存在但就是很有意思的东西。我不生产答案，只负责提出一些让自己困惑的问题。目前生活在陆地上，尚未掌握飞行技能。"
+        >
+          {willowCopy.map((paragraph, paragraphIndex) => (
+            <p
+              className={`willow-paragraph ${paragraphIndex === 2 ? "small-copy" : ""}`}
+              key={paragraphIndex}
+              aria-hidden="true"
+            >
+              {paragraph.map((column, columnIndex) => (
+                <span
+                  className="willow-column"
+                  key={columnIndex}
+                  style={
+                    {
+                      "--column-index": columnIndex + paragraphIndex * 3,
+                    } as React.CSSProperties
+                  }
+                >
+                  {Array.from(column).map((character, characterIndex) => (
+                    <span
+                      className="willow-character"
+                      key={`${character}-${characterIndex}`}
+                      style={
+                        {
+                          "--char-index": characterIndex,
+                          "--column-index": columnIndex + paragraphIndex * 3,
+                        } as React.CSSProperties
+                      }
+                    >
+                      {character}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </p>
+          ))}
         </div>
         <a className="search-button" href="#works" aria-label="进入作品集">
           <span className="search-icon" aria-hidden="true" />

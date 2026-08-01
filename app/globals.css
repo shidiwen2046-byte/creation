@@ -59,7 +59,7 @@ a {
   inset: 22px 26px auto;
   z-index: 20;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr 1fr;
   align-items: start;
   font-size: 12px;
   font-weight: 700;
@@ -665,11 +665,77 @@ a {
   transform: rotate(-2deg);
 }
 
+.about-title-art {
+  width: min(100%, 690px);
+  transform: rotate(-1deg);
+}
+
+.about-title-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(8px 10px 0 rgba(16, 16, 16, 0.13));
+}
+
 .about-copy {
   align-self: center;
   font-size: clamp(17px, 1.5vw, 23px);
   font-weight: 700;
   line-height: 1.35;
+}
+
+.willow-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: clamp(300px, 31vw, 410px);
+  outline: none;
+  cursor: crosshair;
+}
+
+.willow-paragraph {
+  margin: 0 0 22px;
+}
+
+.willow-column,
+.willow-character {
+  display: inline;
+}
+
+.willow-copy:hover,
+.willow-copy:focus-visible {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(3px, 0.45vw, 8px);
+  padding-top: 4px;
+}
+
+.willow-copy:hover .willow-paragraph,
+.willow-copy:focus-visible .willow-paragraph {
+  display: contents;
+}
+
+.willow-copy:hover .willow-column,
+.willow-copy:focus-visible .willow-column {
+  display: block;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: clamp(11px, 1.05vw, 16px);
+  line-height: 1.22;
+  letter-spacing: 0.13em;
+  transform-origin: 50% 0;
+  animation: willow-column-sway 2.8s ease-in-out infinite alternate;
+  animation-delay: calc(var(--column-index, 0) * -0.19s);
+}
+
+.willow-copy:hover .willow-character,
+.willow-copy:focus-visible .willow-character {
+  display: inline-block;
+  transform-origin: 50% 10%;
+  animation: willow-leaf 1.75s ease-in-out infinite alternate;
+  animation-delay: calc((var(--char-index, 0) + var(--column-index, 0) * 2) * -0.065s);
 }
 
 .small-copy {
@@ -1081,6 +1147,18 @@ footer a {
   100% { opacity: 0; transform: translate(16px, -26px) scale(1.15) rotate(8deg); }
 }
 
+@keyframes willow-column-sway {
+  0% { transform: rotate(-3deg) translateX(-2px); }
+  42% { transform: rotate(1deg) translateX(2px); }
+  100% { transform: rotate(5deg) translateX(5px); }
+}
+
+@keyframes willow-leaf {
+  0% { transform: rotate(-8deg) translateX(-1px); }
+  50% { transform: rotate(2deg) translateX(2px); }
+  100% { transform: rotate(9deg) translateX(-2px); }
+}
+
 @media (max-width: 800px) {
   .topbar {
     grid-template-columns: 1fr 1fr;
@@ -1168,6 +1246,19 @@ footer a {
     grid-template-columns: 1fr;
     align-items: start;
     padding: 80px 22px;
+  }
+
+  .about-title-art {
+    width: 100%;
+  }
+
+  .willow-copy {
+    height: 360px;
+  }
+
+  .willow-copy:hover .willow-column,
+  .willow-copy:focus-visible .willow-column {
+    font-size: 11px;
   }
 
   .search-button {
