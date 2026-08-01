@@ -288,9 +288,15 @@ export default function Home() {
             </p>
           ))}
         </div>
-        <a className="search-button" href="#works" aria-label="进入作品集">
-          <span className="search-icon" aria-hidden="true" />
-          <span>SEARCH MY WORK</span>
+        <a className="portrait-work-link" href="#works" aria-label="点击个人图片进入作品集">
+          <img src="/hero/profile-portrait.webp" alt="史蒂文坐在椅子上拍照的插画" />
+          <span className="portrait-arrows" aria-hidden="true">
+            {["↘", "→", "↗", "↓", "➜", "↙", "↑", "↖", "→", "↘", "➝", "↓"].map(
+              (arrow, index) => (
+                <i key={`${arrow}-${index}`}>{arrow}</i>
+              ),
+            )}
+          </span>
         </a>
       </section>
 
