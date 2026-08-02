@@ -1104,54 +1104,65 @@ a {
 }
 
 .quote-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  display: block;
 }
 
 .quote-list article {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 250px;
-  padding: clamp(24px, 3vw, 44px);
-  color: var(--ink);
-  background: var(--paper);
-  border: 2px solid var(--paper);
-}
-
-.quote-list article:nth-child(3n + 2) {
-  background: var(--green);
-  transform: rotate(.7deg);
-}
-
-.quote-list article:nth-child(4n) {
+  display: grid;
+  grid-template-columns: minmax(44px, .2fr) minmax(0, 1fr) minmax(80px, .25fr);
+  align-items: center;
+  min-height: min(78vh, 820px);
+  padding: clamp(48px, 7vw, 110px) 1vw;
   color: var(--paper);
-  background: var(--blue);
-  transform: rotate(-.6deg);
+  border-bottom: 1px solid #555;
+  transform: scale(var(--quote-scale, .955));
+  transform-origin: center;
+  will-change: transform;
 }
 
 .quote-list article > span {
+  align-self: start;
   font-size: 11px;
   font-weight: 950;
   letter-spacing: .12em;
 }
 
 .quote-list p {
-  margin: auto 0;
+  max-width: 1100px;
+  margin: 0 auto;
   white-space: pre-line;
-  font-size: clamp(20px, 2.25vw, 34px);
-  font-weight: 850;
-  line-height: 1.25;
-  letter-spacing: -.035em;
+  font-size: clamp(38px, 5.7vw, 92px);
+  font-weight: 950;
+  line-height: 1.02;
+  letter-spacing: -.075em;
+  text-align: center;
 }
 
 .quote-list cite {
-  align-self: flex-end;
-  margin-top: 24px;
+  align-self: end;
+  justify-self: end;
   font-size: 13px;
   font-style: normal;
   font-weight: 800;
+  text-align: right;
+}
+
+.quote-list article > span,
+.quote-list article > p,
+.quote-list article > cite {
+  opacity: var(--quote-opacity, .16);
+  filter: blur(var(--quote-blur, 16px));
+  transition: color 180ms ease;
+  will-change: filter, opacity;
+}
+
+.quote-list article:nth-child(3n + 2) p {
+  color: var(--green);
+}
+
+.quote-list article:nth-child(3n) p {
+  color: #7ea0ff;
 }
 
 .empty-writing {
@@ -1583,12 +1594,19 @@ footer a {
     font-size: 13vw;
   }
 
-  .quote-list {
-    grid-template-columns: 1fr;
+  .quote-list article {
+    grid-template-columns: 36px minmax(0, 1fr);
+    min-height: 72vh;
+    padding-block: 56px;
   }
 
-  .quote-list article {
-    min-height: 220px;
+  .quote-list p {
+    font-size: clamp(31px, 10.5vw, 54px);
+  }
+
+  .quote-list cite {
+    grid-column: 2;
+    margin-top: 24px;
   }
 
   .ferment-placeholder {
@@ -1636,5 +1654,12 @@ footer a {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .quote-list article > span,
+  .quote-list article > p,
+  .quote-list article > cite {
+    opacity: 1 !important;
+    filter: none !important;
   }
 }

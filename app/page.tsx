@@ -201,6 +201,53 @@ export default function Home() {
     };
   }, [activeObject, activePortfolioWork]);
 
+  useEffect(() => {
+    if (activeWritingSection !== "daily") return;
+
+    const quoteElements = Array.from(document.querySelectorAll<HTMLElement>(".quote-list article"));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let frame = 0;
+
+    const updateQuoteFocus = () => {
+      const viewportHeight = window.innerHeight;
+      const viewportCenter = viewportHeight / 2;
+
+      quoteElements.forEach((quote) => {
+        if (reducedMotion) {
+          quote.style.setProperty("--quote-blur", "0px");
+          quote.style.setProperty("--quote-opacity", "1");
+          quote.style.setProperty("--quote-scale", "1");
+          return;
+        }
+
+        const rect = quote.getBoundingClientRect();
+        const quoteCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(quoteCenter - viewportCenter);
+        const focus = Math.max(0, Math.min(1, 1 - distance / (viewportHeight * 0.62)));
+        const easedFocus = Math.pow(focus, 0.62);
+
+        quote.style.setProperty("--quote-blur", `${((1 - easedFocus) * 16).toFixed(2)}px`);
+        quote.style.setProperty("--quote-opacity", (0.16 + easedFocus * 0.84).toFixed(3));
+        quote.style.setProperty("--quote-scale", (0.955 + easedFocus * 0.045).toFixed(3));
+      });
+    };
+
+    const requestUpdate = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(updateQuoteFocus);
+    };
+
+    updateQuoteFocus();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+    };
+  }, [activeWritingSection]);
+
   return (
     <main>
       <section className="hero" aria-label="个人作品集首页">
