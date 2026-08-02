@@ -1367,8 +1367,8 @@ a {
   min-width: 0;
   padding: clamp(10px, 1.5vw, 22px);
   overflow: hidden;
-  background: #fff;
-  border: 3px solid var(--paper);
+  background: transparent;
+  border: 0;
   cursor: zoom-in;
   transition: transform 260ms cubic-bezier(.2, .8, .2, 1), box-shadow 260ms ease;
 }
@@ -1384,7 +1384,8 @@ a {
 .mushroom-grid button:hover,
 .mushroom-grid button:focus-visible {
   z-index: 1;
-  box-shadow: 10px 12px 0 var(--green);
+  box-shadow: none;
+  filter: drop-shadow(10px 12px 0 var(--green));
   transform: translateY(-8px) rotate(1deg) scale(1.02);
 }
 
@@ -1717,6 +1718,156 @@ a {
   font-size: 30px;
   line-height: 1;
   cursor: pointer;
+}
+
+.mushroom-tv-lightbox {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(74, 154, 255, .22), transparent 38%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 4px),
+    #11100e;
+}
+
+.retro-tv {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(92px, 10vw, 150px);
+  width: min(82vw, 980px);
+  height: min(67vh, 680px);
+  padding: clamp(24px, 3vw, 46px);
+  color: #2c1b12;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .16), transparent 28%),
+    repeating-linear-gradient(90deg, #80502e 0 5px, #704328 5px 11px);
+  border: clamp(10px, 1.4vw, 18px) solid #3a2419;
+  border-radius: 14% 10% 12% 13% / 12% 14% 11% 12%;
+  box-shadow:
+    inset 0 0 0 5px #aa7346,
+    inset 0 -18px 30px rgba(0, 0, 0, .28),
+    22px 26px 0 rgba(0, 0, 0, .45);
+}
+
+.retro-tv-screen {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  overflow: hidden;
+  background: #d9ddcf;
+  border: clamp(10px, 1.4vw, 18px) solid #292421;
+  border-radius: 16% 13% 15% 14% / 18% 17% 16% 18%;
+  box-shadow: inset 0 0 38px rgba(19, 41, 42, .42);
+}
+
+.retro-tv-screen img {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  padding: clamp(16px, 3vw, 44px);
+  object-fit: contain;
+  background: transparent;
+  box-shadow: none;
+}
+
+.retro-tv-screen > span {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, .28), transparent 28%),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(16, 29, 31, .08) 3px 4px);
+  pointer-events: none;
+}
+
+.retro-tv-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2vw, 28px);
+  padding-left: clamp(16px, 2vw, 30px);
+}
+
+.retro-tv-controls i {
+  position: relative;
+  display: block;
+  width: clamp(50px, 6vw, 76px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 38% 35%, #e2b16e 0 8%, #68402a 10% 54%, #241812 56% 100%);
+  border: 4px solid #261912;
+  border-radius: 50%;
+  box-shadow: 4px 6px 0 rgba(0, 0, 0, .25);
+}
+
+.retro-tv-controls i::after {
+  position: absolute;
+  top: 11%;
+  left: 47%;
+  width: 4px;
+  height: 24%;
+  background: #e6c08b;
+  content: "";
+  transform: rotate(28deg);
+  transform-origin: bottom;
+}
+
+.retro-tv-controls b {
+  padding-top: 18px;
+  border-top: 5px dotted #271b14;
+  font-size: 10px;
+  letter-spacing: .14em;
+}
+
+.retro-tv-antenna {
+  position: absolute;
+  top: clamp(-78px, -7vw, -52px);
+  left: 50%;
+  width: 180px;
+  height: 80px;
+  transform: translateX(-50%);
+}
+
+.retro-tv-antenna i {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 7px;
+  height: 92px;
+  background: #4d413a;
+  border-radius: 999px;
+  transform-origin: bottom;
+}
+
+.retro-tv-antenna i:first-child {
+  transform: rotate(-46deg);
+}
+
+.retro-tv-antenna i:last-child {
+  transform: rotate(46deg);
+}
+
+.retro-tv-feet i {
+  position: absolute;
+  bottom: -38px;
+  width: 72px;
+  height: 38px;
+  background: #3a2419;
+  border-radius: 0 0 12px 12px;
+}
+
+.retro-tv-feet i:first-child {
+  left: 14%;
+  transform: skewX(-18deg);
+}
+
+.retro-tv-feet i:last-child {
+  right: 14%;
+  transform: skewX(18deg);
+}
+
+.mushroom-tv-lightbox > p {
+  color: var(--green);
 }
 
 footer {
@@ -2252,6 +2403,45 @@ footer a {
   .portfolio-lightbox img {
     max-width: 94vw;
     max-height: 72vh;
+  }
+
+  .retro-tv {
+    grid-template-columns: 1fr;
+    width: min(92vw, 620px);
+    height: min(62vh, 540px);
+    padding: 20px;
+    border-width: 10px;
+  }
+
+  .retro-tv-screen {
+    border-width: 10px;
+  }
+
+  .retro-tv-screen img {
+    max-width: none;
+    max-height: none;
+    padding: 14px;
+  }
+
+  .retro-tv-controls {
+    flex-direction: row;
+    gap: 14px;
+    padding: 13px 0 0;
+  }
+
+  .retro-tv-controls i {
+    width: 38px;
+  }
+
+  .retro-tv-controls b {
+    padding: 0 0 0 14px;
+    border-top: 0;
+    border-left: 4px dotted #271b14;
+  }
+
+  .retro-tv-antenna {
+    top: -58px;
+    transform: translateX(-50%) scale(.72);
   }
 
   .object-modal {

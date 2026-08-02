@@ -720,7 +720,12 @@ export default function Home() {
       )}
 
       {activePortfolioWork && (
-        <div className="portfolio-lightbox" role="dialog" aria-modal="true" aria-label={activePortfolioWork.title}>
+        <div
+          className={`portfolio-lightbox ${activePortfolioWork.src.includes("/mushroom-family/") ? "mushroom-tv-lightbox" : ""}`}
+          role="dialog"
+          aria-modal="true"
+          aria-label={activePortfolioWork.title}
+        >
           <button
             className="portfolio-lightbox-close"
             onClick={() => setActivePortfolioWork(null)}
@@ -728,7 +733,29 @@ export default function Home() {
           >
             ×
           </button>
-          <img src={activePortfolioWork.src} alt={activePortfolioWork.title} />
+          {activePortfolioWork.src.includes("/mushroom-family/") ? (
+            <div className="retro-tv">
+              <div className="retro-tv-antenna" aria-hidden="true">
+                <i />
+                <i />
+              </div>
+              <div className="retro-tv-screen">
+                <img src={activePortfolioWork.src} alt={activePortfolioWork.title} />
+                <span aria-hidden="true" />
+              </div>
+              <div className="retro-tv-controls" aria-hidden="true">
+                <i />
+                <i />
+                <b>CH · 01</b>
+              </div>
+              <div className="retro-tv-feet" aria-hidden="true">
+                <i />
+                <i />
+              </div>
+            </div>
+          ) : (
+            <img src={activePortfolioWork.src} alt={activePortfolioWork.title} />
+          )}
           <p>《{activePortfolioWork.title}》</p>
         </div>
       )}
