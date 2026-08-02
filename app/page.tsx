@@ -643,9 +643,9 @@ export default function Home() {
       </section>
 
       <footer>
-        <span>ZHU STUDIO © 2026</span>
+        <span>史蒂文发酵录</span>
         <span>如果想不通，就先吃饭。</span>
-        <a href="mailto:hello@example.com">HELLO@EXAMPLE.COM ↗</a>
+        <a href="mailto:shidiwen2046@gmail.com">shidiwen2046@gmail.com ↗</a>
       </footer>
 
       {activeObject && (
