@@ -144,7 +144,7 @@ const dailyQuotes = [
   },
   { text: "人人心中一口气，不叹气就会发脾气。" },
   { text: "真理是可以用极少的字说出来的。" },
-  { text: "我要当黄磊老师烧的豆角，读死这个世界。" },
+  { text: "我要当黄磊老师烧的豆角，毒死这个世界。" },
   { text: "好东西不一定是好东西，好朋友确实是好朋友。", credit: "淘气" },
   {
     text: "明明处于失权的情况，却拿着自己被剥削的部分作为掌握权利的谈资。",
@@ -207,28 +207,56 @@ export default function Home() {
     const quoteElements = Array.from(document.querySelectorAll<HTMLElement>(".quote-list article"));
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
+    let lastScrollY = window.scrollY;
+    let scrollDirection: "up" | "down" = "down";
 
     const updateQuoteFocus = () => {
       const viewportHeight = window.innerHeight;
       const viewportCenter = viewportHeight / 2;
+      const currentScrollY = window.scrollY;
+
+      if (Math.abs(currentScrollY - lastScrollY) > 1) {
+        scrollDirection = currentScrollY < lastScrollY ? "up" : "down";
+      }
+      lastScrollY = currentScrollY;
 
       quoteElements.forEach((quote) => {
         if (reducedMotion) {
           quote.style.setProperty("--quote-blur", "0px");
           quote.style.setProperty("--quote-opacity", "1");
           quote.style.setProperty("--quote-scale", "1");
+          quote.style.setProperty("--puddle-scale-x", "1");
+          quote.style.setProperty("--puddle-scale-y", "1");
+          quote.style.setProperty("--puddle-shift", "0px");
+          quote.style.setProperty("--puddle-opacity", "0");
           return;
         }
 
         const rect = quote.getBoundingClientRect();
         const quoteCenter = rect.top + rect.height / 2;
         const distance = Math.abs(quoteCenter - viewportCenter);
-        const focus = Math.max(0, Math.min(1, 1 - distance / (viewportHeight * 0.62)));
-        const easedFocus = Math.pow(focus, 0.62);
+        const distanceRatio = distance / viewportHeight;
+        const clearZone = 0.2;
+        const fadeLimit = 0.58;
+        const rawFocus =
+          distanceRatio <= clearZone
+            ? 1
+            : Math.max(0, Math.min(1, 1 - (distanceRatio - clearZone) / (fadeLimit - clearZone)));
+        const easedFocus = rawFocus * rawFocus * (3 - 2 * rawFocus);
+        const puddleStart = viewportCenter + viewportHeight * clearZone;
+        const rawPuddle =
+          scrollDirection === "up" && quoteCenter > puddleStart
+            ? Math.max(0, Math.min(1, (quoteCenter - puddleStart) / (viewportHeight * 0.42)))
+            : 0;
+        const puddle = rawPuddle * rawPuddle * (3 - 2 * rawPuddle);
 
-        quote.style.setProperty("--quote-blur", `${((1 - easedFocus) * 16).toFixed(2)}px`);
-        quote.style.setProperty("--quote-opacity", (0.16 + easedFocus * 0.84).toFixed(3));
-        quote.style.setProperty("--quote-scale", (0.955 + easedFocus * 0.045).toFixed(3));
+        quote.style.setProperty("--quote-blur", `${((1 - easedFocus) * 18 + puddle * 3).toFixed(2)}px`);
+        quote.style.setProperty("--quote-opacity", (0.14 + easedFocus * 0.86).toFixed(3));
+        quote.style.setProperty("--quote-scale", (0.97 + easedFocus * 0.03).toFixed(3));
+        quote.style.setProperty("--puddle-scale-x", (1 + puddle * 0.58).toFixed(3));
+        quote.style.setProperty("--puddle-scale-y", (1 - puddle * 0.82).toFixed(3));
+        quote.style.setProperty("--puddle-shift", `${(puddle * 42).toFixed(2)}px`);
+        quote.style.setProperty("--puddle-opacity", (puddle * 0.78).toFixed(3));
       });
     };
 
