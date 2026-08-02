@@ -136,8 +136,9 @@ const portfolioWorks = [
   { title: "小孩的画", src: "/work/look-06.webp" },
   { title: "滋个大牙乐", src: "/work/look-07.webp" },
   { title: "咿呀咿呀", src: "/work/look-08.webp" },
-  { title: "正在施工中", src: "/work/look-09.webp" },
 ];
+
+const constructionWork = { title: "正在施工中", src: "/work/look-09.webp" };
 
 const dailyQuotes = [
   {
@@ -200,9 +201,13 @@ export default function Home() {
   const [activeWritingSection, setActiveWritingSection] = useState<
     (typeof writingSections)[number]["id"] | null
   >(null);
-  const [activePortfolioWork, setActivePortfolioWork] = useState<
-    (typeof portfolioWorks)[number] | null
-  >(null);
+  const [activePortfolioWork, setActivePortfolioWork] = useState<{
+    title: string;
+    src: string;
+  } | null>(null);
+  const [bookPage, setBookPage] = useState(0);
+  const [bookIntroActive, setBookIntroActive] = useState(false);
+  const [bookTurnDirection, setBookTurnDirection] = useState<"next" | "previous">("next");
   const [titleDropped, setTitleDropped] = useState(false);
 
   useEffect(() => {
@@ -211,6 +216,17 @@ export default function Home() {
       document.body.style.overflow = "";
     };
   }, [activeObject, activePortfolioWork]);
+
+  useEffect(() => {
+    if (activeCategory?.id !== "browse") return;
+
+    setBookPage(0);
+    setBookTurnDirection("next");
+    setBookIntroActive(true);
+    const introTimer = window.setTimeout(() => setBookIntroActive(false), 1850);
+
+    return () => window.clearTimeout(introTimer);
+  }, [activeCategory]);
 
   useEffect(() => {
     if (activeWritingSection !== "daily") return;
@@ -483,21 +499,77 @@ export default function Home() {
               <p>{activeCategory.en}</p>
             </div>
             {activeCategory.id === "browse" && (
-              <div className="portfolio-grid">
-                {portfolioWorks.map((work, index) => (
-                  <button
-                    className="portfolio-card"
-                    key={work.title}
-                    onClick={() => setActivePortfolioWork(work)}
-                    aria-label={`放大查看《${work.title}》`}
-                  >
-                    <span className="portfolio-image-wrap">
-                      <img src={work.src} alt={work.title} />
-                      <i>{String(index + 1).padStart(2, "0")}</i>
+              <div className="portfolio-book-section">
+                <div className={`portfolio-book ${bookIntroActive ? "is-intro" : ""}`}>
+                  <div className="book-volume">
+                    <div className="book-left-page">
+                      <span>LOOK AROUND / 随便看看</span>
+                      <strong>{String(bookPage + 1).padStart(2, "0")}</strong>
+                      <h4>《{portfolioWorks[bookPage].title}》</h4>
+                      <p>翻一页，看看脑子里又掉出了什么。</p>
+                    </div>
+
+                    <button
+                      className={`book-right-page turn-${bookTurnDirection}`}
+                      key={`${bookPage}-${bookTurnDirection}`}
+                      onClick={() => setActivePortfolioWork(portfolioWorks[bookPage])}
+                      aria-label={`放大查看《${portfolioWorks[bookPage].title}》`}
+                    >
+                      <img src={portfolioWorks[bookPage].src} alt={portfolioWorks[bookPage].title} />
+                    </button>
+
+                    <div className="rapid-book-pages" aria-hidden="true">
+                      {portfolioWorks.map((work, index) => (
+                        <span
+                          key={work.title}
+                          style={{ "--rapid-index": index } as React.CSSProperties}
+                        >
+                          <img src={work.src} alt="" />
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="book-controls">
+                    <button
+                      type="button"
+                      disabled={bookIntroActive}
+                      onClick={() => {
+                        setBookTurnDirection("previous");
+                        setBookPage((page) => (page - 1 + portfolioWorks.length) % portfolioWorks.length);
+                      }}
+                    >
+                      ← 上一页
+                    </button>
+                    <span>
+                      {String(bookPage + 1).padStart(2, "0")} / {String(portfolioWorks.length).padStart(2, "0")}
                     </span>
-                    <strong>《{work.title}》</strong>
+                    <button
+                      type="button"
+                      disabled={bookIntroActive}
+                      onClick={() => {
+                        setBookTurnDirection("next");
+                        setBookPage((page) => (page + 1) % portfolioWorks.length);
+                      }}
+                    >
+                      下一页 →
+                    </button>
+                  </div>
+                </div>
+
+                <div className="construction-tail">
+                  <div>
+                    <span>TO BE CONTINUED / 未完待续</span>
+                    <h4>这一页还没完。</h4>
+                    <p>还有很多创意正在施工。</p>
+                  </div>
+                  <button
+                    onClick={() => setActivePortfolioWork(constructionWork)}
+                    aria-label="放大查看正在施工中的标牌"
+                  >
+                    <img src={constructionWork.src} alt="正在施工中" />
                   </button>
-                ))}
+                </div>
               </div>
             )}
 
