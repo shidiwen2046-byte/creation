@@ -1360,7 +1360,7 @@ a {
   gap: clamp(14px, 2vw, 30px);
 }
 
-.mushroom-grid button {
+.mushroom-grid > div {
   position: relative;
   display: grid;
   aspect-ratio: 1.25;
@@ -1369,24 +1369,14 @@ a {
   overflow: hidden;
   background: transparent;
   border: 0;
-  cursor: zoom-in;
-  transition: transform 260ms cubic-bezier(.2, .8, .2, 1), box-shadow 260ms ease;
 }
 
-.mushroom-grid button:nth-child(4n + 1) {
+.mushroom-grid > div:nth-child(4n + 1) {
   transform: rotate(-.7deg);
 }
 
-.mushroom-grid button:nth-child(4n + 3) {
+.mushroom-grid > div:nth-child(4n + 3) {
   transform: rotate(.8deg);
-}
-
-.mushroom-grid button:hover,
-.mushroom-grid button:focus-visible {
-  z-index: 1;
-  box-shadow: none;
-  filter: drop-shadow(10px 12px 0 var(--green));
-  transform: translateY(-8px) rotate(1deg) scale(1.02);
 }
 
 .mushroom-grid img {
@@ -1720,75 +1710,6 @@ a {
   cursor: pointer;
 }
 
-.mushroom-tv-lightbox {
-  background:
-    radial-gradient(circle at 50% 45%, rgba(74, 154, 255, .22), transparent 38%),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 4px),
-    #11100e;
-}
-
-.retro-tv {
-  position: relative;
-  width: min(86vw, 920px);
-  aspect-ratio: 480 / 407;
-  filter: drop-shadow(22px 28px 0 rgba(0, 0, 0, .48));
-}
-
-.retro-tv-screen {
-  display: grid;
-  place-items: center;
-  position: absolute;
-  top: 21.4%;
-  left: 9.7%;
-  z-index: 2;
-  width: 61.5%;
-  height: 61.8%;
-  overflow: hidden;
-  background: #b9ced0;
-  border-radius: 19% 16% 19% 18% / 16% 18% 18% 19%;
-  box-shadow: inset 0 0 32px rgba(16, 31, 32, .45);
-}
-
-.retro-tv-screen img {
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
-  padding: clamp(12px, 2.5vw, 34px);
-  object-fit: contain;
-  background: transparent;
-  box-shadow: none;
-}
-
-.retro-tv-screen > span {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background:
-    linear-gradient(110deg, rgba(255, 255, 255, .28), transparent 28%),
-    repeating-linear-gradient(0deg, transparent 0 3px, rgba(16, 29, 31, .08) 3px 4px);
-  pointer-events: none;
-}
-
-.retro-tv-frame {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
-  object-fit: contain;
-  background: transparent;
-  box-shadow: none;
-  pointer-events: none;
-}
-
-.mushroom-tv-lightbox > p {
-  color: var(--green);
-}
 
 footer {
   display: grid;
@@ -2325,15 +2246,6 @@ footer a {
     max-height: 72vh;
   }
 
-  .retro-tv {
-    width: min(94vw, 620px);
-  }
-
-  .retro-tv-screen img {
-    max-width: none;
-    max-height: none;
-    padding: 10px;
-  }
 
   .object-modal {
     grid-template-columns: 1fr;

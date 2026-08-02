@@ -615,14 +615,10 @@ export default function Home() {
                 </div>
                 <div className="mushroom-grid">
                   {mushroomFamily.map((work, index) => (
-                    <button
-                      key={work.src}
-                      onClick={() => setActivePortfolioWork(work)}
-                      aria-label={`放大查看${work.title}`}
-                    >
+                    <div key={work.src}>
                       <img src={work.src} alt={work.title} />
                       <span>{String(index + 1).padStart(2, "0")}</span>
-                    </button>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -720,12 +716,7 @@ export default function Home() {
       )}
 
       {activePortfolioWork && (
-        <div
-          className={`portfolio-lightbox ${activePortfolioWork.src.includes("/mushroom-family/") ? "mushroom-tv-lightbox" : ""}`}
-          role="dialog"
-          aria-modal="true"
-          aria-label={activePortfolioWork.title}
-        >
+        <div className="portfolio-lightbox" role="dialog" aria-modal="true" aria-label={activePortfolioWork.title}>
           <button
             className="portfolio-lightbox-close"
             onClick={() => setActivePortfolioWork(null)}
@@ -733,17 +724,7 @@ export default function Home() {
           >
             ×
           </button>
-          {activePortfolioWork.src.includes("/mushroom-family/") ? (
-            <div className="retro-tv">
-              <div className="retro-tv-screen">
-                <img src={activePortfolioWork.src} alt={activePortfolioWork.title} />
-                <span aria-hidden="true" />
-              </div>
-              <img className="retro-tv-frame" src="/work/retro-tv.png" alt="" aria-hidden="true" />
-            </div>
-          ) : (
-            <img src={activePortfolioWork.src} alt={activePortfolioWork.title} />
-          )}
+          <img src={activePortfolioWork.src} alt={activePortfolioWork.title} />
           <p>《{activePortfolioWork.title}》</p>
         </div>
       )}
