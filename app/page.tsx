@@ -105,30 +105,77 @@ const objects: ObjectCard[] = [
 
 const categories = [
   {
-    id: "poster",
+    id: "browse",
     no: "01",
-    title: "海报",
-    en: "POSTERS",
+    title: "随便看看",
+    en: "LOOK AROUND",
     color: "#ff4b34",
-    works: ["失物招领", "夏夜游泳", "噪音也开花", "周日无事发生"],
   },
   {
-    id: "emoji",
+    id: "ferment",
     no: "02",
-    title: "表情包",
-    en: "EMOJI PACKS",
+    title: "发酵中",
+    en: "FERMENTING",
     color: "#d7ff38",
-    works: ["猪没事", "先吃饭吧", "已读乱回", "今日宜躺平"],
   },
   {
-    id: "type",
+    id: "write",
     no: "03",
-    title: "文字类",
-    en: "TYPE & WORDS",
+    title: "写吧",
+    en: "WRITE IT DOWN",
     color: "#1a56ff",
-    works: ["城市错别字", "慢一点宣言", "生活使用说明", "无意义词典"],
   },
 ];
+
+const portfolioWorks = [
+  { title: "马的2026", src: "/work/look-01.webp" },
+  { title: "马年快乐", src: "/work/look-02.webp" },
+  { title: "马上好了", src: "/work/look-03.webp" },
+  { title: "蘑菇花", src: "/work/look-04.webp" },
+  { title: "投喂", src: "/work/look-05.webp" },
+  { title: "小孩的画", src: "/work/look-06.webp" },
+  { title: "滋个大牙乐", src: "/work/look-07.webp" },
+  { title: "咿呀咿呀", src: "/work/look-08.webp" },
+];
+
+const dailyQuotes = [
+  {
+    text: "“那个鸡脚筋真的特别好吃，而且你想想，它一盒鸡脚筋才20，但是你点外卖配送费都30了。”\n“因为鸡脚不会走路啊，所以配送费30。”",
+  },
+  { text: "人人心中一口气，不叹气就会发脾气。" },
+  { text: "真理是可以用极少的字说出来的。" },
+  { text: "我要当黄磊老师烧的豆角，读死这个世界。" },
+  { text: "好东西不一定是好东西，好朋友确实是好朋友。", credit: "淘气" },
+  {
+    text: "明明处于失权的情况，却拿着自己被剥削的部分作为掌握权利的谈资。",
+    credit: "老八",
+  },
+  { text: "我们的性教育只强调结果，不强调过程。", credit: "本科宿舍深夜妙谈" },
+  { text: "如果幸福是蘑菇屋，那我是何炅。", credit: "水米拉" },
+  { text: "穿搭都不行，哪里还能行。", credit: "小麦" },
+  { text: "有的老同学突然变成青老年、老中年了。" },
+  {
+    text: "有些人不需要外界帮助，因为他们自己会把自己安慰好，告诉自己屎也有好吃的地方，然后走向吃屎—被恶心到然后哭闹—继续吃屎的循环。",
+    credit: "陈姐",
+  },
+  {
+    text: "其实每个人都不管彼此精神如何，只要每个人都在自己的位置上“运转”就可以了。",
+    credit: "王姐",
+  },
+  { text: "本人理念：放弃向父母索求爱，是爱自己的第一步。" },
+  {
+    text: "人不能一夜就开花，也不能一夜就落地，所以日子是慢慢过的，既不能拥有很多，也不会什么都无所谓。",
+  },
+  {
+    text: "没事别总随便反思自己，一碰到球可以停一停再踢。人类就喜欢当皮筋，绑着世界也绑着自己。",
+  },
+];
+
+const writingSections = [
+  { id: "daily", no: "01", title: "每日一句", en: "ONE A DAY" },
+  { id: "monthly", no: "02", title: "每月一打", en: "A DOZEN A MONTH" },
+  { id: "yearly", no: "03", title: "每年一堆", en: "A PILE A YEAR" },
+] as const;
 
 const willowCopy = [
   ["我收集街头碎片、城市噪音、", "电影里的沉默，还有那些", "不知道为什么存在但就是", "很有意思的东西。"],
@@ -139,14 +186,20 @@ const willowCopy = [
 export default function Home() {
   const [activeObject, setActiveObject] = useState<ObjectCard | null>(null);
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number] | null>(null);
+  const [activeWritingSection, setActiveWritingSection] = useState<
+    (typeof writingSections)[number]["id"] | null
+  >(null);
+  const [activePortfolioWork, setActivePortfolioWork] = useState<
+    (typeof portfolioWorks)[number] | null
+  >(null);
   const [titleDropped, setTitleDropped] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = activeObject ? "hidden" : "";
+    document.body.style.overflow = activeObject || activePortfolioWork ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [activeObject]);
+  }, [activeObject, activePortfolioWork]);
 
   return (
     <main>
@@ -310,7 +363,13 @@ export default function Home() {
         {!activeCategory ? (
           <div className="category-list">
             {categories.map((category) => (
-              <button key={category.id} onClick={() => setActiveCategory(category)}>
+              <button
+                key={category.id}
+                onClick={() => {
+                  setActiveCategory(category);
+                  setActiveWritingSection(null);
+                }}
+              >
                 <span className="category-no">{category.no}</span>
                 <span className="category-title">{category.title}</span>
                 <span className="category-en">{category.en}</span>
@@ -320,7 +379,13 @@ export default function Home() {
           </div>
         ) : (
           <div className="category-open">
-            <button className="back-button" onClick={() => setActiveCategory(null)}>
+            <button
+              className="back-button"
+              onClick={() => {
+                setActiveCategory(null);
+                setActiveWritingSection(null);
+              }}
+            >
               ← 返回所有分类
             </button>
             <div className="category-open-title">
@@ -328,22 +393,70 @@ export default function Home() {
               <h3>{activeCategory.title}</h3>
               <p>{activeCategory.en}</p>
             </div>
-            <div className="work-grid">
-              {activeCategory.works.map((work, index) => (
-                <article
-                  key={work}
-                  className="work-card"
-                  style={{ "--card-color": activeCategory.color } as React.CSSProperties}
-                >
-                  <div className={`work-visual visual-${index + 1}`}>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <strong>{work}</strong>
+            {activeCategory.id === "browse" && (
+              <div className="portfolio-grid">
+                {portfolioWorks.map((work, index) => (
+                  <button
+                    className="portfolio-card"
+                    key={work.title}
+                    onClick={() => setActivePortfolioWork(work)}
+                    aria-label={`放大查看《${work.title}》`}
+                  >
+                    <span className="portfolio-image-wrap">
+                      <img src={work.src} alt={work.title} />
+                      <i>{String(index + 1).padStart(2, "0")}</i>
+                    </span>
+                    <strong>《{work.title}》</strong>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {activeCategory.id === "ferment" && (
+              <div className="ferment-placeholder" aria-label="发酵中的作品">
+                <span aria-hidden="true">•••</span>
+                <strong>还在发酵，先别开盖。</strong>
+              </div>
+            )}
+
+            {activeCategory.id === "write" && !activeWritingSection && (
+              <div className="writing-menu">
+                {writingSections.map((section) => (
+                  <button key={section.id} onClick={() => setActiveWritingSection(section.id)}>
+                    <span>{section.no}</span>
+                    <strong>{section.title}</strong>
+                    <em>{section.en}</em>
+                    <i>↗</i>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {activeCategory.id === "write" && activeWritingSection && (
+              <div className="writing-open">
+                <button className="writing-back" onClick={() => setActiveWritingSection(null)}>
+                  ← 返回“写吧”
+                </button>
+
+                {activeWritingSection === "daily" && (
+                  <div className="quote-list">
+                    {dailyQuotes.map((quote, index) => (
+                      <article key={index}>
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <p>{quote.text}</p>
+                        {quote.credit && <cite>— {quote.credit}</cite>}
+                      </article>
+                    ))}
                   </div>
-                  <p>{work}</p>
-                  <span>2024—2026 / 视觉实验</span>
-                </article>
-              ))}
-            </div>
+                )}
+
+                {activeWritingSection === "monthly" && (
+                  <p className="empty-writing">这里空空如也</p>
+                )}
+
+                {activeWritingSection === "yearly" && <p className="empty-writing">还在敲</p>}
+              </div>
+            )}
           </div>
         )}
       </section>
@@ -374,6 +487,20 @@ export default function Home() {
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
+        </div>
+      )}
+
+      {activePortfolioWork && (
+        <div className="portfolio-lightbox" role="dialog" aria-modal="true" aria-label={activePortfolioWork.title}>
+          <button
+            className="portfolio-lightbox-close"
+            onClick={() => setActivePortfolioWork(null)}
+            aria-label="关闭作品大图"
+          >
+            ×
+          </button>
+          <img src={activePortfolioWork.src} alt={activePortfolioWork.title} />
+          <p>《{activePortfolioWork.title}》</p>
         </div>
       )}
     </main>
