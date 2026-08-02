@@ -1729,33 +1729,24 @@ a {
 
 .retro-tv {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(92px, 10vw, 150px);
-  width: min(82vw, 980px);
-  height: min(67vh, 680px);
-  padding: clamp(24px, 3vw, 46px);
-  color: #2c1b12;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, .16), transparent 28%),
-    repeating-linear-gradient(90deg, #80502e 0 5px, #704328 5px 11px);
-  border: clamp(10px, 1.4vw, 18px) solid #3a2419;
-  border-radius: 14% 10% 12% 13% / 12% 14% 11% 12%;
-  box-shadow:
-    inset 0 0 0 5px #aa7346,
-    inset 0 -18px 30px rgba(0, 0, 0, .28),
-    22px 26px 0 rgba(0, 0, 0, .45);
+  width: min(86vw, 920px);
+  aspect-ratio: 480 / 407;
+  filter: drop-shadow(22px 28px 0 rgba(0, 0, 0, .48));
 }
 
 .retro-tv-screen {
-  position: relative;
   display: grid;
   place-items: center;
-  min-width: 0;
+  position: absolute;
+  top: 21.4%;
+  left: 9.7%;
+  z-index: 2;
+  width: 61.5%;
+  height: 61.8%;
   overflow: hidden;
-  background: #d9ddcf;
-  border: clamp(10px, 1.4vw, 18px) solid #292421;
-  border-radius: 16% 13% 15% 14% / 18% 17% 16% 18%;
-  box-shadow: inset 0 0 38px rgba(19, 41, 42, .42);
+  background: #b9ced0;
+  border-radius: 19% 16% 19% 18% / 16% 18% 18% 19%;
+  box-shadow: inset 0 0 32px rgba(16, 31, 32, .45);
 }
 
 .retro-tv-screen img {
@@ -1764,7 +1755,7 @@ a {
   height: 100%;
   max-width: none;
   max-height: none;
-  padding: clamp(16px, 3vw, 44px);
+  padding: clamp(12px, 2.5vw, 34px);
   object-fit: contain;
   background: transparent;
   box-shadow: none;
@@ -1780,90 +1771,19 @@ a {
   pointer-events: none;
 }
 
-.retro-tv-controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(16px, 2vw, 28px);
-  padding-left: clamp(16px, 2vw, 30px);
-}
-
-.retro-tv-controls i {
-  position: relative;
+.retro-tv-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   display: block;
-  width: clamp(50px, 6vw, 76px);
-  aspect-ratio: 1;
-  background: radial-gradient(circle at 38% 35%, #e2b16e 0 8%, #68402a 10% 54%, #241812 56% 100%);
-  border: 4px solid #261912;
-  border-radius: 50%;
-  box-shadow: 4px 6px 0 rgba(0, 0, 0, .25);
-}
-
-.retro-tv-controls i::after {
-  position: absolute;
-  top: 11%;
-  left: 47%;
-  width: 4px;
-  height: 24%;
-  background: #e6c08b;
-  content: "";
-  transform: rotate(28deg);
-  transform-origin: bottom;
-}
-
-.retro-tv-controls b {
-  padding-top: 18px;
-  border-top: 5px dotted #271b14;
-  font-size: 10px;
-  letter-spacing: .14em;
-}
-
-.retro-tv-antenna {
-  position: absolute;
-  top: clamp(-78px, -7vw, -52px);
-  left: 50%;
-  width: 180px;
-  height: 80px;
-  transform: translateX(-50%);
-}
-
-.retro-tv-antenna i {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 7px;
-  height: 92px;
-  background: #4d413a;
-  border-radius: 999px;
-  transform-origin: bottom;
-}
-
-.retro-tv-antenna i:first-child {
-  transform: rotate(-46deg);
-}
-
-.retro-tv-antenna i:last-child {
-  transform: rotate(46deg);
-}
-
-.retro-tv-feet i {
-  position: absolute;
-  bottom: -38px;
-  width: 72px;
-  height: 38px;
-  background: #3a2419;
-  border-radius: 0 0 12px 12px;
-}
-
-.retro-tv-feet i:first-child {
-  left: 14%;
-  transform: skewX(-18deg);
-}
-
-.retro-tv-feet i:last-child {
-  right: 14%;
-  transform: skewX(18deg);
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  background: transparent;
+  box-shadow: none;
+  pointer-events: none;
 }
 
 .mushroom-tv-lightbox > p {
@@ -2406,42 +2326,13 @@ footer a {
   }
 
   .retro-tv {
-    grid-template-columns: 1fr;
-    width: min(92vw, 620px);
-    height: min(62vh, 540px);
-    padding: 20px;
-    border-width: 10px;
-  }
-
-  .retro-tv-screen {
-    border-width: 10px;
+    width: min(94vw, 620px);
   }
 
   .retro-tv-screen img {
     max-width: none;
     max-height: none;
-    padding: 14px;
-  }
-
-  .retro-tv-controls {
-    flex-direction: row;
-    gap: 14px;
-    padding: 13px 0 0;
-  }
-
-  .retro-tv-controls i {
-    width: 38px;
-  }
-
-  .retro-tv-controls b {
-    padding: 0 0 0 14px;
-    border-top: 0;
-    border-left: 4px dotted #271b14;
-  }
-
-  .retro-tv-antenna {
-    top: -58px;
-    transform: translateX(-50%) scale(.72);
+    padding: 10px;
   }
 
   .object-modal {

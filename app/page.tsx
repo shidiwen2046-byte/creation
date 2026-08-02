@@ -735,23 +735,11 @@ export default function Home() {
           </button>
           {activePortfolioWork.src.includes("/mushroom-family/") ? (
             <div className="retro-tv">
-              <div className="retro-tv-antenna" aria-hidden="true">
-                <i />
-                <i />
-              </div>
               <div className="retro-tv-screen">
                 <img src={activePortfolioWork.src} alt={activePortfolioWork.title} />
                 <span aria-hidden="true" />
               </div>
-              <div className="retro-tv-controls" aria-hidden="true">
-                <i />
-                <i />
-                <b>CH · 01</b>
-              </div>
-              <div className="retro-tv-feet" aria-hidden="true">
-                <i />
-                <i />
-              </div>
+              <img className="retro-tv-frame" src="/work/retro-tv.png" alt="" aria-hidden="true" />
             </div>
           ) : (
             <img src={activePortfolioWork.src} alt={activePortfolioWork.title} />
