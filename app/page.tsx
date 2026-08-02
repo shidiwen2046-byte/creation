@@ -140,6 +140,11 @@ const portfolioWorks = [
 
 const constructionWork = { title: "正在施工中", src: "/work/look-09.webp" };
 
+const mushroomFamily = Array.from({ length: 14 }, (_, index) => ({
+  title: `蘑菇家族 ${String(index + 1).padStart(2, "0")}`,
+  src: `/work/mushroom-family/mushroom-${String(index + 1).padStart(2, "0")}.gif`,
+}));
+
 const dailyQuotes = [
   {
     text: "“那个鸡脚筋真的特别好吃，而且你想想，它一盒鸡脚筋才20，但是你点外卖配送费都30了。”\n“因为鸡脚不会走路啊，所以配送费30。”",
@@ -170,6 +175,10 @@ const dailyQuotes = [
   },
   {
     text: "没事别总随便反思自己，一碰到球可以停一停再踢。人类就喜欢当皮筋，绑着世界也绑着自己。",
+  },
+  { text: "变好的不是生活，是你自己。", credit: "Hennessy" },
+  {
+    text: "“爱尔兰的米好难吃，没有甜味。”\n“为什么，是你把唾液淀粉酶吃没了吗？”",
   },
 ];
 
@@ -208,6 +217,7 @@ export default function Home() {
   const [bookPage, setBookPage] = useState(0);
   const [bookIntroActive, setBookIntroActive] = useState(false);
   const [bookTurnDirection, setBookTurnDirection] = useState<"next" | "previous">("next");
+  const [fermentAlbumOpen, setFermentAlbumOpen] = useState(false);
   const [titleDropped, setTitleDropped] = useState(false);
 
   useEffect(() => {
@@ -473,6 +483,7 @@ export default function Home() {
                 onClick={() => {
                   setActiveCategory(category);
                   setActiveWritingSection(null);
+                  setFermentAlbumOpen(false);
                 }}
               >
                 <span className="category-no">{category.no}</span>
@@ -489,6 +500,7 @@ export default function Home() {
               onClick={() => {
                 setActiveCategory(null);
                 setActiveWritingSection(null);
+                setFermentAlbumOpen(false);
               }}
             >
               ← 返回所有分类
@@ -573,10 +585,46 @@ export default function Home() {
               </div>
             )}
 
-            {activeCategory.id === "ferment" && (
-              <div className="ferment-placeholder" aria-label="发酵中的作品">
-                <span aria-hidden="true">•••</span>
-                <strong>还在发酵，先别开盖。</strong>
+            {activeCategory.id === "ferment" && !fermentAlbumOpen && (
+              <div className="ferment-shelf">
+                <button className="ferment-album-card" onClick={() => setFermentAlbumOpen(true)}>
+                  <span>ALBUM 01 / 专辑 1</span>
+                  <img src={mushroomFamily[0].src} alt="蘑菇家族表情包封面" />
+                  <div>
+                    <strong>蘑菇家族</strong>
+                    <em>14 GIFS · 点击开盖 ↗</em>
+                  </div>
+                </button>
+
+                <div className="ferment-placeholder" aria-label="更多作品还在发酵中">
+                  <span aria-hidden="true">•••</span>
+                  <strong>还在发酵，先别开盖。</strong>
+                </div>
+              </div>
+            )}
+
+            {activeCategory.id === "ferment" && fermentAlbumOpen && (
+              <div className="ferment-album-open">
+                <button className="writing-back" onClick={() => setFermentAlbumOpen(false)}>
+                  ← 返回“发酵中”
+                </button>
+                <div className="ferment-album-head">
+                  <span>ALBUM 01 / 14 GIFS</span>
+                  <h4>蘑菇家族</h4>
+                  <p>一群正在认真发酵的小蘑菇。</p>
+                </div>
+                <div className="mushroom-grid">
+                  {mushroomFamily.map((work, index) => (
+                    <button
+                      key={work.src}
+                      onClick={() => setActivePortfolioWork(work)}
+                      aria-label={`放大查看${work.title}`}
+                    >
+                      <img src={work.src} alt={work.title} />
+                      <span>{String(index + 1).padStart(2, "0")}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 

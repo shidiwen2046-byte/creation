@@ -1223,6 +1223,75 @@ a {
   to { opacity: 1; transform: rotateY(0) translateX(0); }
 }
 
+.ferment-shelf {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 64px);
+  padding: clamp(54px, 6vw, 100px) 0 7vw;
+}
+
+.ferment-album-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-width: 0;
+  min-height: 58vh;
+  padding: clamp(20px, 2.5vw, 38px);
+  overflow: hidden;
+  color: var(--ink);
+  background: #f3efe4;
+  border: 3px solid var(--paper);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 12px 14px 0 var(--blue);
+  transition: transform 360ms cubic-bezier(.2, .8, .2, 1), box-shadow 360ms ease;
+}
+
+.ferment-album-card > span {
+  z-index: 1;
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: .16em;
+}
+
+.ferment-album-card img {
+  display: block;
+  width: min(100%, 520px);
+  height: 100%;
+  min-height: 0;
+  margin-inline: auto;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.ferment-album-card > div {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 16px;
+  border-top: 2px solid var(--ink);
+}
+
+.ferment-album-card strong {
+  font-size: clamp(36px, 5vw, 78px);
+  line-height: .84;
+  letter-spacing: -.08em;
+}
+
+.ferment-album-card em {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.ferment-album-card:hover,
+.ferment-album-card:focus-visible {
+  box-shadow: 20px 22px 0 var(--green);
+  transform: translateY(-10px) rotate(-1deg);
+}
+
 .ferment-placeholder {
   display: grid;
   place-items: center;
@@ -1235,6 +1304,11 @@ a {
   animation: ferment-breathe 4s ease-in-out infinite alternate;
 }
 
+.ferment-shelf .ferment-placeholder {
+  min-width: 0;
+  margin: 0;
+}
+
 .ferment-placeholder span {
   align-self: end;
   font-size: clamp(50px, 8vw, 120px);
@@ -1243,8 +1317,97 @@ a {
 
 .ferment-placeholder strong {
   align-self: start;
+  padding-inline: clamp(24px, 4vw, 70px);
   font-size: clamp(28px, 4vw, 64px);
   letter-spacing: -.06em;
+}
+
+.ferment-album-open {
+  padding: clamp(44px, 6vw, 96px) 0 8vw;
+}
+
+.ferment-album-head {
+  display: grid;
+  grid-template-columns: .35fr 1fr;
+  gap: 14px 30px;
+  align-items: end;
+  padding: clamp(42px, 6vw, 92px) 0 38px;
+}
+
+.ferment-album-head > span {
+  align-self: start;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+
+.ferment-album-head h4 {
+  margin: 0;
+  font-size: clamp(70px, 13vw, 190px);
+  line-height: .72;
+  letter-spacing: -.1em;
+}
+
+.ferment-album-head p {
+  grid-column: 2;
+  margin: 0;
+  font-size: clamp(16px, 1.8vw, 26px);
+}
+
+.mushroom-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 30px);
+}
+
+.mushroom-grid button {
+  position: relative;
+  display: grid;
+  aspect-ratio: 1.25;
+  min-width: 0;
+  padding: clamp(10px, 1.5vw, 22px);
+  overflow: hidden;
+  background: #fff;
+  border: 3px solid var(--paper);
+  cursor: zoom-in;
+  transition: transform 260ms cubic-bezier(.2, .8, .2, 1), box-shadow 260ms ease;
+}
+
+.mushroom-grid button:nth-child(4n + 1) {
+  transform: rotate(-.7deg);
+}
+
+.mushroom-grid button:nth-child(4n + 3) {
+  transform: rotate(.8deg);
+}
+
+.mushroom-grid button:hover,
+.mushroom-grid button:focus-visible {
+  z-index: 1;
+  box-shadow: 10px 12px 0 var(--green);
+  transform: translateY(-8px) rotate(1deg) scale(1.02);
+}
+
+.mushroom-grid img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.mushroom-grid span {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: var(--paper);
+  background: var(--blue);
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 950;
 }
 
 .writing-menu {
@@ -2050,9 +2213,36 @@ footer a {
     margin-top: 24px;
   }
 
+  .ferment-shelf {
+    grid-template-columns: 1fr;
+    padding-top: 50px;
+  }
+
+  .ferment-album-card,
   .ferment-placeholder {
     min-height: 50vh;
-    margin-top: 45px;
+  }
+
+  .ferment-album-card > div {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .ferment-album-head {
+    grid-template-columns: 1fr;
+  }
+
+  .ferment-album-head h4,
+  .ferment-album-head p {
+    grid-column: 1;
+  }
+
+  .ferment-album-head h4 {
+    font-size: 22vw;
+  }
+
+  .mushroom-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .portfolio-lightbox {
