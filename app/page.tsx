@@ -136,6 +136,7 @@ const portfolioWorks = [
   { title: "小孩的画", src: "/work/look-06.webp" },
   { title: "滋个大牙乐", src: "/work/look-07.webp" },
   { title: "咿呀咿呀", src: "/work/look-08.webp" },
+  { title: "正在施工中", src: "/work/look-09.webp" },
 ];
 
 const dailyQuotes = [
@@ -177,6 +178,16 @@ const writingSections = [
   { id: "yearly", no: "03", title: "每年一堆", en: "A PILE A YEAR" },
 ] as const;
 
+const scrollParticles = Array.from({ length: 30 }, (_, index) => ({
+  type: (["drop", "bubble", "mushroom"] as const)[index % 3],
+  left: (index * 37 + 7) % 96,
+  top: (index * 23 + 4) % 88,
+  size: 18 + ((index * 13) % 34),
+  delay: -((index * 0.31) % 3.6),
+  duration: 2.2 + ((index * 0.19) % 2.1),
+  drift: -34 + ((index * 17) % 68),
+}));
+
 const willowCopy = [
   ["我收集街头碎片、城市噪音、", "电影里的沉默，还有那些", "不知道为什么存在但就是", "很有意思的东西。"],
   ["我不生产答案，只负责提出", "一些让自己困惑的问题。"],
@@ -205,6 +216,7 @@ export default function Home() {
     if (activeWritingSection !== "daily") return;
 
     const quoteElements = Array.from(document.querySelectorAll<HTMLElement>(".quote-list article"));
+    const quoteList = document.querySelector<HTMLElement>(".quote-list");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
     let lastScrollY = window.scrollY;
@@ -219,6 +231,7 @@ export default function Home() {
         scrollDirection = currentScrollY < lastScrollY ? "up" : "down";
       }
       lastScrollY = currentScrollY;
+      quoteList?.classList.toggle("is-scrolling-up", !reducedMotion && scrollDirection === "up");
 
       quoteElements.forEach((quote) => {
         if (reducedMotion) {
@@ -271,6 +284,7 @@ export default function Home() {
 
     return () => {
       cancelAnimationFrame(frame);
+      quoteList?.classList.remove("is-scrolling-up");
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
     };
@@ -515,6 +529,26 @@ export default function Home() {
 
                 {activeWritingSection === "daily" && (
                   <div className="quote-list">
+                    <div className="up-scroll-effects" aria-hidden="true">
+                      {scrollParticles.map((particle, index) => (
+                        <i
+                          className={`scroll-particle particle-${particle.type}`}
+                          key={`${particle.type}-${index}`}
+                          style={
+                            {
+                              left: `${particle.left}%`,
+                              top: `${particle.top}%`,
+                              "--particle-size": `${particle.size}px`,
+                              "--particle-delay": `${particle.delay}s`,
+                              "--particle-duration": `${particle.duration}s`,
+                              "--particle-drift": `${particle.drift}px`,
+                              "--particle-half-drift": `${particle.drift * 0.45}px`,
+                              "--particle-drop-width": `${Math.max(5, particle.size * 0.26)}px`,
+                            } as React.CSSProperties
+                          }
+                        />
+                      ))}
+                    </div>
                     {dailyQuotes.map((quote, index) => (
                       <article key={index}>
                         <span>{String(index + 1).padStart(2, "0")}</span>
